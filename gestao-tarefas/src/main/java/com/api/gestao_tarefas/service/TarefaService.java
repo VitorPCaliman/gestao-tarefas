@@ -1,6 +1,8 @@
 package com.api.gestao_tarefas.service;
 
 import com.api.gestao_tarefas.dto.TarefaDTO;
+import com.api.gestao_tarefas.exception.TarefaNaoEncontradaException;
+import com.api.gestao_tarefas.exception.ValidacaoException;
 import com.api.gestao_tarefas.model.Tarefa;
 import com.api.gestao_tarefas.repository.TarefaRepository;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,9 @@ public class TarefaService {
     }
 
     public Tarefa criarTarefa(TarefaDTO dto) {
+        if (dto.titulo() == null || dto.titulo().isBlank()) {
+            throw new ValidacaoException("O título é obrigatório.");
+        }
         Tarefa tarefa = new Tarefa(dto.titulo(),dto.descricao(),dto.status());
         return tarefaRepository.save(tarefa);
     }
@@ -30,13 +35,13 @@ public class TarefaService {
 
     public Tarefa buscarTarefa(Long id) {
         return tarefaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Tarefa não encontrada"));
+                .orElseThrow(() -> new TarefaNaoEncontradaException("Tarefa não encontrada."));
     }
 
     public Tarefa atualizarStatus(Long id, Map<String, String> requestBody) {
         String novoStatus = requestBody.get("status");
         if (novoStatus == null || novoStatus.isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O status não pode ser vazio.");
+            throw new ValidacaoException("O status não pode ser vazio.");
         }
         Tarefa tarefa = buscarTarefa(id);
         tarefa.setStatus(novoStatus);
