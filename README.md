@@ -143,7 +143,7 @@ Acesse o console do H2 após rodar a aplicação:
     }
   ]
   ```
-- **Erro (400 Not Found)**
+- **Erro (404 Not Found)**
   ```json
   {
     "message": "Nenhuma Tarefa encontrada."
@@ -162,7 +162,7 @@ Acesse o console do H2 após rodar a aplicação:
     "status": "PENDENTE"
   }
   ```
-- **Erro (400 Not Found)**
+- **Erro (404 Not Found)**
   ```json
   {
     "message": "Tarefa não encontrada."
