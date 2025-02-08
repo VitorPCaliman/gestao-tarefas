@@ -123,10 +123,10 @@ Acesse o console do H2 após rodar a aplicação:
     "status": "PENDENTE"
   }
   ```
-- **Erro (500 Internal Server Error)**
+- **Erro (400 Bad Request)**
   ```json
   {
-    "message": "Erro interno no servidor."
+    "message":  "O título é obrigatório."
   }
   ```
 
