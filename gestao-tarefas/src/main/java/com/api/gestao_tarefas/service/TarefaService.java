@@ -5,9 +5,9 @@ import com.api.gestao_tarefas.exception.TarefaNaoEncontradaException;
 import com.api.gestao_tarefas.exception.ValidacaoException;
 import com.api.gestao_tarefas.model.Tarefa;
 import com.api.gestao_tarefas.repository.TarefaRepository;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +30,10 @@ public class TarefaService {
     }
 
     public List<Tarefa> listarTarefas() {
-        return tarefaRepository.findAll();
+        List<Tarefa> tarefasEncontradas = tarefaRepository.findAll();
+        if (tarefasEncontradas.isEmpty())
+            throw new TarefaNaoEncontradaException("Nenhuma Tarefa encontrada.");
+        return tarefasEncontradas;
     }
 
     public Tarefa buscarTarefa(Long id) {
